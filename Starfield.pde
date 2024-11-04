@@ -13,10 +13,16 @@ void setup() {
   size(500, 500);
   background(0);
   hello = new firework();
-  particles = new Particle[100];
+  particles = new Particle[(int)(Math.random()*200 + 100)];
 
   outlier = new OutlierParticle((float)myX, (float)myY);
   particles[0] = outlier;
+}
+
+void mousePressed(){
+  for(int i = 0; i < 2; i++){
+    hello.reset();
+  }
 }
 
 void draw() {
@@ -79,7 +85,25 @@ class firework {
     myY += mySpeedY;
     mySpeedY += 0.15;
   }
+  
+  void reset(){
+      myX = (Math.random()*300 + 100);
+      myY = 500;
+      accelerateDown = false;
+      exploded = false;
+      if (myX >= 100 && myX <= 250) {
+      myAngle = (Math.random() * (PI/4) + (PI/4));
+    } else if (myX >= 250 && myX <= 400) {
+      myAngle = (Math.random() * (PI/4) + (PI/2));
+    }
+
+    mySpeedX = Math.cos(myAngle) * (Math.random() * 4 + 3);
+    mySpeedY = -Math.sin(myAngle) * (Math.random() * 4 + 9);
+    myColor = color((int)(Math.random() * 255), (int)(Math.random() * 255), (int)(Math.random() * 255));
+      
+    }
 }
+
 
 
 class Particle {
@@ -99,8 +123,8 @@ class Particle {
   }
 
   void scatter() {
-    x = x + cos(angle) * speed;
-    y = y + sin(angle) * speed;
+    x = x + cos(angle)*speed;
+    y = y + sin(angle)*speed;
 
     if (opacity > 0) {
       opacity -= 4;
